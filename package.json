@@ -1,0 +1,26 @@
+{
+  "name": "ps4-zone",
+  "version": "1.0.0",
+  "description": "Database of PS4 Games",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Playstation",
+    "4",
+    "games"
+  ],
+  "author": "Jan Michael Jose",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bulma": "^0.9.0",
+    "ejs": "^3.1.3",
+    "express": "^4.17.1",
+    "express-sanitizer": "^1.0.5",
+    "method-override": "^3.0.0",
+    "request": "^2.88.2",
+    "superagent": "^5.2.2"
+  }
+}
