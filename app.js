@@ -14,7 +14,7 @@ const resPlatform = 'platform=' + resIDPS4;
 const resID = '';
 const resFormat = 'json';
 const param1 = 'limit=1';
-const resLimit = 100;
+const resLimit = 10;
 var parsedBody;
 
 //format of URL for GiantBomb
