@@ -14,9 +14,8 @@ const resPlatform = 'platform=' + resIDPS4;
 const resID = '';
 const resFormat = 'json';
 const param1 = 'limit=1';
-const resLimit = 10;
-var parsedBody;
-
+const resLimit = 100;
+var parsedBody, ps4Details;
 //format of URL for GiantBomb
 //http://www.giantbomb.com/api/[RESOURCE-TYPE]/[RESOURCE-ID]/?api_key=[YOUR-KEY]&format=[RESPONSE-DATA-FORMAT]&field_list=[COMMA-SEPARATED-LIST-OF-RESOURCE-FIELDS]
 const reqPattern = mainURL + resType + "/?api_key=" + api_key + "&format=" + resFormat + "&platform=" + resIDPS4+ "&limit=1";
@@ -25,27 +24,46 @@ const options = {
     format: resFormat,
     platforms: resIDPS4,
     limit: resLimit,
-    sort: 'name:asc'
+    //sort: 'original_release_date:desc'
 };
-
-
+const platOptions = {
+  api_key: api_key,
+  format: resFormat,
+  id: resIDPS4
+};
+function getGames() {
+  return new Promise((resolve, reject) => {
+    const error = false;
+    superagent
+    .get(mainURL+"games/")
+    .query(options);
+    if(!error){
+      resolve();
+    }
+    else {
+      reject("Error");
+    }
+  });
+}
+function getPS4(){
+  return new Promise((resolve, reject) => {
+    const error = false;
+    superagent.get(mainURL+"platform/").query(platOptions);
+    if(!error){
+      resolve();
+    }
+    else {
+      reject("Error");
+    }
+  });
+}
 
 
 app.get("/", function (req, res) {
-  superagent
-  .get(mainURL+"games/")
-  .query(options)
-  .then(respo => {
-    //console.log(respo.body.url);
-    //console.log(respo.body.results[0].platforms);
-    res.render("index.ejs",{parsedBody:respo.body.results});
-  });
-
-
-
-
+  getGames()
+  .then(getPS4)
+  .then(res.render("index.ejs",{parsedBody:respo.body.results, ps4Details: ps4Details}));
 });
 app.listen(port, function () {
     console.log("Server is running");
-    //console.log(reqPattern);
   });
