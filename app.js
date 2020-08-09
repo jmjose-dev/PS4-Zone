@@ -14,7 +14,7 @@ const resPlatform = 'platform=' + resIDPS4;
 const resID = '';
 const resFormat = 'json';
 const param1 = 'limit=1';
-const resLimit = 100;
+const resLimit = 1;
 var parsedBody, ps4Details;
 //format of URL for GiantBomb
 //http://www.giantbomb.com/api/[RESOURCE-TYPE]/[RESOURCE-ID]/?api_key=[YOUR-KEY]&format=[RESPONSE-DATA-FORMAT]&field_list=[COMMA-SEPARATED-LIST-OF-RESOURCE-FIELDS]
@@ -31,38 +31,13 @@ const platOptions = {
   format: resFormat,
   id: resIDPS4
 };
-function getGames() {
-  return new Promise((resolve, reject) => {
-    const error = false;
-    superagent
-    .get(mainURL+"games/")
-    .query(options);
-    if(!error){
-      resolve();
-    }
-    else {
-      reject("Error");
-    }
-  });
-}
-function getPS4(){
-  return new Promise((resolve, reject) => {
-    const error = false;
-    superagent.get(mainURL+"platform/").query(platOptions);
-    if(!error){
-      resolve();
-    }
-    else {
-      reject("Error");
-    }
-  });
-}
-
 
 app.get("/", function (req, res) {
-  getGames()
-  .then(getPS4)
-  .then(res.render("index.ejs",{parsedBody:respo.body.results, ps4Details: ps4Details}));
+  superagent.get(mainURL+"games/").query(options)
+  .then(gamesResp => {console.log(gamesResp.request.url)})
+  .then(superagent.get(mainURL+"platform/"+resIDPS4).query(platOptions))
+  .then(setTimeout(ps4Resp => {console.log(ps4Resp)},30000))
+  //.then(res.render("index.ejs",{parsedBody:respo.body.results, ps4Details: ps4Details}));
 });
 app.listen(port, function () {
     console.log("Server is running");
