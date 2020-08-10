@@ -13,9 +13,11 @@
         <div class="hero-lg bg-gray">
             <div class="hero-body">
               <h1>Playstation 4</h1>
-              <p><%=ps4Details %></p>
+              <h2>Company: <%=ps4Details.company.name %></h2>
+              <h2>Release date: <%=ps4Details.release_date %></h2>
+              <p><%=ps4Details.deck %></p>
             </div>
-          </div>
+        </div>
 
 
 
@@ -24,6 +26,7 @@
             <div class="columns">
                 <%for(i=0;i<parsedBody.length;i++) { %>
                     <div class="column col-3 col-xs-12 wide-padding">
+                        <% console.log(parsedBody[i].name + ":" + Object.keys(parsedBody[i].platforms).length) %>
                         <div class="card">
                             <div class="card-image">
                                 <img src='<%=parsedBody[i].image.small_url%>' class="img-responsive">
@@ -32,13 +35,20 @@
                               <div class="card-title h5"><%=parsedBody[i].name %></div>
                             </div>
                             <div class="card-body">
-                                <%=parsedBody[i].deck %>
+                                <p><%=parsedBody[i].deck %></p>
                             </div>
                             <div class="card-footer">
+                                <p>Platforms:
+                                    <% for(y=0;y<parsedBody[i].platforms.length;y++) { %>
+                                        <span class="chip">
+                                            <%=parsedBody[i].platforms[y].name %>
+                                        </span>
+                                    <% } %>
+                                </p>
                               <button class="btn btn-primary" formaction="/game">See More Info</button>
                             </div>
                           </div>
-                    </div>
+                        </div>
                 <% } %>
             </div>
         </div>
